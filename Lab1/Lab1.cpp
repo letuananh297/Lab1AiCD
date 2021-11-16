@@ -19,8 +19,8 @@ int main() {
 	cout << "The second list: " << list2 << endl;
 	cout << "Size of the second list: " << list2.get_size() << endl << endl;
 
-	cout << "The second element of the first list is: " << list1.at(2) << endl;
-	cout << "The last element of the second list is: " << list2.at(list2.get_size()) << endl << endl;
+	cout << "The second element of the first list is: " << list1.at(1) << endl;
+	cout << "The last element of the second list is: " << list2.at(list2.get_size() - 1) << endl << endl;
 
 	//Checking for the contents of the second list in the first list 
 	if (list1.contains(list2))

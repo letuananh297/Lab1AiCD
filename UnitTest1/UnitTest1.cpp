@@ -18,7 +18,7 @@ namespace UnitTest1
 			//When list is empty
 			try
 			{
-				list1.at(1);
+				list1.at(0);
 			}
 			catch(std::logic_error)
 			{
@@ -29,15 +29,15 @@ namespace UnitTest1
 			for (int i = 1; i < 5; i++)
 				list2.push_back(2 * i);  
 			//list2: 2 4 6 8
-			Assert::AreEqual(list2.at(1), 2);
-			Assert::AreEqual(list2.at(2), 4);
-			Assert::AreEqual(list2.at(3), 6);
-			Assert::AreEqual(list2.at(4), 8);
+			Assert::AreEqual(list2.at(0), 2);
+			Assert::AreEqual(list2.at(1), 4);
+			Assert::AreEqual(list2.at(2), 6);
+			Assert::AreEqual(list2.at(3), 8);
 
-			//When index < 1
+			//When index < 0
 			try
 			{
-				list2.at(0);
+				list2.at(-1);
 			}
 			catch (std::invalid_argument)
 			{
@@ -45,7 +45,7 @@ namespace UnitTest1
 			}
 			Assert::IsTrue(check2);
 
-			//When index > size
+			//When index > size - 1
 			try
 			{
 				list2.at(10);
@@ -76,16 +76,16 @@ namespace UnitTest1
 
 			list1.push_back(2);
 			//list1: 2
-			Assert::AreEqual(list1.at(1), 2);
+			Assert::AreEqual(list1.at(0), 2);
 			Assert::IsTrue(list1.get_size() == 1);
 
 			list2.push_back(9);
 			list2.push_back(0);
 			list2.push_back(7);
 			//list2: 9 0 7
-			Assert::AreEqual(list2.at(1), 9);
-			Assert::AreEqual(list2.at(2), 0);
-			Assert::AreEqual(list2.at(3), 7);
+			Assert::AreEqual(list2.at(0), 9);
+			Assert::AreEqual(list2.at(1), 0);
+			Assert::AreEqual(list2.at(2), 7);
 			Assert::IsTrue(list2.get_size() == 3);
 		}
 
@@ -95,7 +95,7 @@ namespace UnitTest1
 
 			list1.push_front(10);
 			//list1: 10
-			Assert::AreEqual(list1.at(1), 10);
+			Assert::AreEqual(list1.at(0), 10);
 			Assert::IsTrue(list1.get_size() == 1);
 
 			list2.push_front(0);
@@ -103,10 +103,10 @@ namespace UnitTest1
 			list2.push_front(0);
 			list2.push_front(4);
 			//list2: 4 0 6 0
-			Assert::AreEqual(list2.at(1), 4);
-			Assert::AreEqual(list2.at(2), 0);
-			Assert::AreEqual(list2.at(3), 6);
-			Assert::AreEqual(list2.at(4), 0);
+			Assert::AreEqual(list2.at(0), 4);
+			Assert::AreEqual(list2.at(1), 0);
+			Assert::AreEqual(list2.at(2), 6);
+			Assert::AreEqual(list2.at(3), 0);
 			Assert::IsTrue(list2.get_size() == 4);
 		}
 
@@ -131,9 +131,9 @@ namespace UnitTest1
 			//list2: 4 3 2
 
 			Assert::IsTrue(list2.get_size() == 3);
-			Assert::AreEqual(list2.at(1), 4);
-			Assert::AreEqual(list2.at(2), 3);
-			Assert::AreEqual(list2.at(3), 2);
+			Assert::AreEqual(list2.at(0), 4);
+			Assert::AreEqual(list2.at(1), 3);
+			Assert::AreEqual(list2.at(2), 2);
 
 			//When list3 is empty
 			bool check = 0;
@@ -169,9 +169,9 @@ namespace UnitTest1
 			//list2: 5 7 9
 
 			Assert::IsTrue(list2.get_size() == 3);
-			Assert::AreEqual(list2.at(1), 5);
-			Assert::AreEqual(list2.at(2), 7);
-			Assert::AreEqual(list2.at(3), 9);
+			Assert::AreEqual(list2.at(0), 5);
+			Assert::AreEqual(list2.at(1), 7);
+			Assert::AreEqual(list2.at(2), 9);
 
 			bool check = 0;
 
@@ -192,14 +192,14 @@ namespace UnitTest1
 			List list1, list2, list3, list4;
 			bool check1 = 0, check2 = 0, check3 = 0, check4 = 0;
 
-			//When list1 is empty and index = 1
-			list1.insert(2, 1);
+			//When list1 is empty and index = 0
+			list1.insert(2, 0);
 			//list1: 2
 
-			Assert::AreEqual(list1.at(1), 2);
+			Assert::AreEqual(list1.at(0), 2);
 			Assert::IsTrue(list1.get_size() == 1);
 
-			//When list2 is empty but index > 1
+			//When list2 is empty but index > 0
 			try
 			{
 				list2.insert(6, 4);
@@ -210,10 +210,10 @@ namespace UnitTest1
 			}
 			Assert::IsTrue(check1);
 
-			//When list 3 is empty but index < 1
+			//When list 3 is empty but index < 0
 			try
 			{
-				list3.insert(6, 0);
+				list3.insert(6, -4);
 			}
 			catch (std::invalid_argument)
 			{
@@ -226,19 +226,19 @@ namespace UnitTest1
 			list4.push_back(7);
 			//list4: 9 0 7
 
-			list4.insert(1, 3); 
+			list4.insert(1, 2); 
 			//list4: 9 0 1 7
 
 			Assert::IsTrue(list4.get_size() == 4);
-			Assert::AreEqual(list4.at(4), 7);
-			Assert::AreEqual(list4.at(3), 1);
-			Assert::AreEqual(list4.at(2), 0);
-			Assert::AreEqual(list4.at(1), 9);
+			Assert::AreEqual(list4.at(3), 7);
+			Assert::AreEqual(list4.at(2), 1);
+			Assert::AreEqual(list4.at(1), 0);
+			Assert::AreEqual(list4.at(0), 9);
 
-			//When index < 1
+			//When index < 0
 			try
 			{
-				list4.insert(6, 0);
+				list4.insert(6, -4);
 			}
 			catch (std::invalid_argument)
 			{
@@ -246,7 +246,7 @@ namespace UnitTest1
 			}
 			Assert::IsTrue(check3);
 
-			//When index > size + 1
+			//When index > size
 			try
 			{
 				list4.insert(6, 10);
@@ -265,7 +265,7 @@ namespace UnitTest1
 			list1.push_back(7);
 			//list1: 7
 
-			list1.remove(1);
+			list1.remove(0);
 			//list1 is empty
 
 			Assert::IsTrue(list1.isEmpty());
@@ -275,21 +275,21 @@ namespace UnitTest1
 				list2.push_back(2 * i);
 			//list2: 10 8 6 4 2
 
-			list2.remove(4);
+			list2.remove(3);
 			//list2: 10 8 6 2
 
 			Assert::IsTrue(list2.get_size() ==  4);
-			Assert::AreEqual(list2.at(1), 10);
-			Assert::AreEqual(list2.at(2), 8);
-			Assert::AreEqual(list2.at(3), 6);
-			Assert::AreEqual(list2.at(4), 2);
+			Assert::AreEqual(list2.at(0), 10);
+			Assert::AreEqual(list2.at(1), 8);
+			Assert::AreEqual(list2.at(2), 6);
+			Assert::AreEqual(list2.at(3), 2);
 
 			bool check1 = 0, check2 = 0, check3 = 0;
 
 			//When list 3 is empty
 			try
 			{
-				list3.remove(1);
+				list3.remove(0);
 			}
 			catch (std::logic_error)
 			{
@@ -297,10 +297,10 @@ namespace UnitTest1
 			}
 			Assert::IsTrue(check1);
 
-			//When index < 1
+			//When index < 0
 			try
 			{
-				list2.remove(0);
+				list2.remove(-1);
 			}
 			catch (std::invalid_argument)
 			{
@@ -308,7 +308,7 @@ namespace UnitTest1
 			}
 			Assert::IsTrue(check2);
 
-			//When index > size
+			//When index > size - 1
 			try
 			{
 				list2.remove(10);
@@ -328,21 +328,21 @@ namespace UnitTest1
 				list1.push_back(i);
 			//list1: 4 3 2 1
 
-			list1.set(2, 9);
+			list1.set(1, 9);
 			//list1: 4 9 2 1
 
 			Assert::IsTrue(list1.get_size() == 4);
-			Assert::AreEqual(list1.at(4), 1);
-			Assert::AreEqual(list1.at(3), 2);
-			Assert::AreEqual(list1.at(2), 9);
-			Assert::AreEqual(list1.at(1), 4);
+			Assert::AreEqual(list1.at(3), 1);
+			Assert::AreEqual(list1.at(2), 2);
+			Assert::AreEqual(list1.at(1), 9);
+			Assert::AreEqual(list1.at(0), 4);
 
 			bool check1 = 0, check2 = 0, check3 = 0;
 
 			//When list2 is empty
 			try
 			{
-				list2.set(1, 1);
+				list2.set(0, 1);
 			}
 			catch (std::logic_error)
 			{
@@ -350,10 +350,10 @@ namespace UnitTest1
 			}
 			Assert::IsTrue(check1);
 
-			//When index < 1
+			//When index < 0
 			try
 			{
-				list1.set(0, 1);
+				list1.set(-1, 1);
 			}
 			catch (std::invalid_argument)
 			{
@@ -361,7 +361,7 @@ namespace UnitTest1
 			}
 			Assert::IsTrue(check2);
 
-			//When index > size
+			//When index > size - 1
 			try
 			{
 				list1.set(10, 1);

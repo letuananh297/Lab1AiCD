@@ -9,18 +9,18 @@ public:
 
 	void push_back(int x) {
 		if (isEmpty())
-			head = new Num(x);
+			head = new List_Element(x);
 		else {
-			Num* cur = head;
-			while (cur->next != NULL)
-				cur = cur->next;
-			cur->next = new Num(x);
+			List_Element* current = head;
+			while (current->next != NULL)
+				current = current->next;
+			current->next = new List_Element(x);
 		}
 		size++;
 	}
 
 	void push_front(int x) {
-		head = new Num(x, head);
+		head = new List_Element(x, head);
 		size++;
 	}
 
@@ -29,20 +29,20 @@ public:
 			throw logic_error("List is empty.");
 		else {
 			if (size == 1) {	
-				Num* temp = head;
+				List_Element* temporary = head;
 				head = NULL;
-				delete temp;
+				delete temporary;
 				size--;
 			}
 			else {
-				Num* cur = head;
-				Num* temp = head;
-				while (temp->next != NULL) {
-					cur = temp;
-					temp = temp->next;
+				List_Element* current = head;
+				List_Element* temporary = head;
+				while (temporary->next != NULL) {
+					current = temporary;
+					temporary = temporary->next;
 				}
-				cur->next = NULL;
-				delete temp;
+				current->next = NULL;
+				delete temporary;
 				size--;
 			}
 		}
@@ -52,35 +52,35 @@ public:
 		if (isEmpty())
 			throw logic_error("List is empty.");
 		else {
-			Num* temp = head;
-			head = temp->next;
-			delete temp;
+			List_Element* temporary = head;
+			head = temporary->next;
+			delete temporary;
 			size--;
 		}
 	}
 
 	void insert(int x, size_t index) {
-		if (index == 1)
+		if (index == 0)
 			push_front(x);
-		else if (index == size + 1)
+		else if (index == size)
 			push_back(x);
 		else {
 			if (isEmpty())
 				throw invalid_argument("Failed to execute the function 'insert'.\n");
 			else {
-				if (index < 1)
+				if (index < 0)
 					throw invalid_argument("Failed to execute the function 'insert'.\n");
-				else if (index > size + 1)
+				else if (index > size)
 					throw invalid_argument("Failed to execute the function 'insert'.\n");
 				else {
-					Num* prev = head;
-					size_t count = 1;
-					while ((count < index - 1) && (prev->next != NULL)) {
-						prev = prev->next;
+					List_Element* current = head;
+					size_t count = 0;
+					while ((count < index - 1) && (current->next != NULL)) {
+						current = current->next;
 						count++;
 					}
-					Num* num = new Num(x, prev->next);
-					prev->next = num;
+					List_Element* element = new List_Element(x, current->next);
+					current->next = element;
 					size++;
 				}
 			}
@@ -91,19 +91,19 @@ public:
 		if (isEmpty())
 			throw logic_error("List is empty.");
 		else {
-			if (index < 1) {
+			if (index < 0) {
 				throw invalid_argument("Failed to execute the function 'at'.\n");
 			}
-			else if (index > size)
+			else if (index > size - 1)
 				throw invalid_argument("Failed to execute the function 'at'.\n");
 			else {
-				Num* cur = head;
-				size_t count = 1;
-				while ((count < index) && (cur->next != NULL)) {
-					cur = cur->next;
+				List_Element* current = head;
+				size_t count = 0;
+				while ((count < index) && (current->next != NULL)) {
+					current = current->next;
 					count++;
 				}
-				return cur->n;
+				return current->n;
 			}
 		}
 	}
@@ -112,42 +112,32 @@ public:
 		if (isEmpty())
 			throw logic_error("List is empty.");
 		else {
-			if (index == 1)
+			if (index == 0)
 				pop_front();
-			else if (index < 1)
+			else if (index < 0)
 				throw invalid_argument("Failed to execute the function 'remove'.\n");
-			else if (index == size)
+			else if (index == size - 1)
 				pop_back();
-			else if (index > size)
+			else if (index > size - 1)
 				throw invalid_argument("Failed to execute the function 'remove'.\n");
 			else {
-				Num* prev = head;
-				size_t count = 1;
+				List_Element* previous = head;
+				size_t count = 0;
 				while (count < index - 1) {
-					prev = prev->next;
+					previous = previous->next;
 					count++;
 				}
-				Num* temp = prev->next;
-				Num* cur = temp->next;
-				prev->next = cur;
-				delete temp;
+				List_Element* temporary = previous->next;
+				List_Element* current = temporary->next;
+				previous->next = current;
+				delete temporary;
 				size--;
 			}
 		}
 	}
 
 	size_t get_size() {
-		if (isEmpty())
-			return 0;
-		else {
-			Num* cur = head;
-			size_t count = 1;
-			while (cur->next != NULL) {
-				count++;
-				cur = cur->next;
-			}
-			return count;
-		}
+		return size;
 	}
 
 	void clear() {
@@ -159,18 +149,18 @@ public:
 		if (isEmpty())
 			throw logic_error("List is empty.");
 		else {
-			if (index < 1)
+			if (index < 0)
 				throw invalid_argument("Failed to execute the function 'set'.\n");
-			else if (index > size)
+			else if (index > size - 1)
 				throw invalid_argument("Failed to execute the function 'set'.\n");
 			else {
-				Num* cur = head;
-				size_t count = 1;
-				while ((count < index) && (cur->next != NULL)) {
-					cur = cur->next;
+				List_Element* current = head;
+				size_t count = 0;
+				while ((count < index) && (current->next != NULL)) {
+					current = current->next;
 					count++;
 				}
-				cur->n = x;
+				current->n = x;
 			}
 		}
 	}
@@ -187,11 +177,11 @@ public:
 		if (list.isEmpty()) 
 			output << "List is empty.";
 		else {
-			Num* cur = list.head;
-			while (cur != NULL)
+			List_Element* current = list.head;
+			while (current != NULL)
 			{
-				output << cur->n << (cur->next == NULL ? "" : ", ");
-				cur = cur->next;
+				output << current->n << (current->next == NULL ? "" : ", ");
+				current = current->next;
 			}
 		}
 		return output;
@@ -201,47 +191,48 @@ public:
 		if ((isEmpty()) || (list2.isEmpty()))
 			throw logic_error("List is empty.");
 		else {
-			Num* cur = head;
-			Num* cur2 = list2.head;
+			List_Element* current = head;
+			List_Element* current2 = list2.head;
+			size_t index = 0, index2 = 0;
+			bool check = 0;
 			int count = 0;
-			while (1) {
-				if (cur2->n == cur->n) {
-					cur = cur->next;
-					cur2 = cur2->next;
+			while (index < size && index2 < list2.get_size()) {
+				if (current2->n == current->n) {
 					count++;
+					current = current->next;
+					current2 = current2->next;
+					index++;
+					index2++;
 					if (count == list2.size) {
-						return true;
+						check = 1;
 						break;
 					}
 				}
 				else {
-					if (cur->next == NULL || cur2->next == NULL) {
-						return false;
-						break;
-					}
-					else {
-						cur = cur->next;
-						cur2 = list2.head;
-						count = 0;
-					}
+					current = current->next;
+					index++;
+					current2 = list2.head;
+					index2 = 0;
+					count = 0;
 				}
 			}
+			return check;
 		}
 	}
 
 private:
-	class Num {
+	class List_Element {
 	public:
 		int n;
-		Num* next;
+		List_Element* next;
 
-		Num(int n = int(), Num* next = NULL) {
+		List_Element(int n = int(), List_Element* next = NULL) {
 			this->n = n;
 			this->next = next;
 		}
 	};
 	size_t size;
-	Num* head;
+	List_Element* head;
 };
 
 List::List() {
